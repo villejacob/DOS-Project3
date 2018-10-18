@@ -32,12 +32,12 @@ defmodule Project3 do
     {:noreply, new_state}
   end
 
-  def handle_cast :node_finished, state do
+  def handle_cast {:node_finished, total_nodes}, state do
     {entry_pid, num_nodes, num_requests, total_hops} = state
     remaining_nodes = num_nodes - 1
 
     if remaining_nodes == 0 do
-      avg_hops = total_hops/(num_nodes * num_requests)
+      avg_hops = total_hops / (total_nodes * num_requests)
       IO.puts "#{avg_hops}"
       send entry_pid, :done
       Process.exit self(), :normal

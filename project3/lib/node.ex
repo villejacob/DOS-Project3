@@ -31,9 +31,8 @@ defmodule Project3.Node do
       GenServer.cast :Server, {:message_delivered, hop_count}
     else
       dest_node = get_dest_node dest, fngr_tbl
-      IO.puts "#{inspect fngr_tbl}: from: #{node_no} to #{dest_node} then #{dest}"
+      #IO.puts "#{inspect fngr_tbl}: from: #{node_no} to #{dest_node} then #{dest}"
 
-      IO.puts hop_count
       GenServer.cast String.to_atom("#{dest_node}"), {:send, {dest, hop_count+1}}
     end
     {:noreply, state}
@@ -48,10 +47,10 @@ defmodule Project3.Node do
         end
       end
 
-    if list != nil && list |> Enum.any?() do
+    if list != [] do
       list |> Enum.max()
     else
-      fngr_tbl |> List.last()
+      fngr_tbl |> Enum.max()
     end
   end
 
@@ -59,7 +58,7 @@ defmodule Project3.Node do
     {node_no, num_requests, num_nodes, fngr_tbl} = state
 
     if num_requests == 0 do
-      GenServer.cast :Server, :node_finished
+      GenServer.cast :Server, {:node_finished, num_nodes}
       {:noreply, state}
     else
       dest = Enum.random 1..num_nodes
