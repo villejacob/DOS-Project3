@@ -3,7 +3,7 @@
 Project3.start numNodes, numRequests, self()
 
 receive do
-  {:done} ->
+  :done ->
     IO.puts "finished"
     :ok
 end
