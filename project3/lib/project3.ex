@@ -21,9 +21,8 @@ defmodule Project3 do
   end
 
   def create_network num_nodes, num_requests do
-    m = :math.log(num_nodes)/:math.log(2) |> :math.ceil |> round
     Enum.each 1..num_nodes, fn node_no ->
-      Node.start_link {node_no, num_requests, num_nodes, m}
+      Node.start_link {node_no, num_requests, num_nodes}
     end
   end
 
